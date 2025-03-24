@@ -10,12 +10,16 @@ app.use(cors({
 }));
 app.use(express.json());
 
+app.get('/',(req,res)=>{
+  res.status(200).json({status:"status connected"});
+})
+
 //Routes
 app.use("/api/auth",require("./routes/auth"));
 app.use("/api/notes",require("./routes/notes"));
 
-app.listen(port,()=>{
-  console.log(`NoteBook server running on port ${port}`);
-})
-
-connectMongo();
+connectMongo().then(()=>{
+  app.listen(port, () => {
+    console.log(`NoteBook server running on port ${port}`);
+  });
+});
